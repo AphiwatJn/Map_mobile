@@ -5,18 +5,19 @@ import * as Location from "expo-location";
 import axios from "axios";
 import Nowlocation from "./components/location_button";
 import ZoomLevel from "./components/ZoomLevel";
-import ZoomOut from "./components/Zoomout"
+import ZoomOut from "./components/Zoomout";
+import { ActivityIndicator, MD2Colors } from "react-native-paper";
 
 const App = () => {
-  const [geoJson, setGeoJson] = useState(null); 
+  const [geoJson, setGeoJson] = useState(null);
   const [location, setLocation] = useState(null);
   const [errorMsg, setErrorMsg] = useState(null);
   const [zoomLevel, setZoomLevel] = useState(null);
   const [pinLocation, setPinLocation] = useState(null);
   const { width, height } = Dimensions.get("screen");
   const ASPECT_RATIO = width / height;
-  const [LATITUDE,SetLATITUDE] = useState(15.87)
-  const [LONGITUDE,setLONGITUDE] = useState(100.9925)
+  const [LATITUDE, SetLATITUDE] = useState(15.87);
+  const [LONGITUDE, setLONGITUDE] = useState(100.9925);
   // let LATITUDE = 15.87;
   // let LONGITUDE = 100.9925;
   const LATITUDE_DELTA = 0.3;
@@ -25,8 +26,6 @@ const App = () => {
   const [active_pin, setActive_pin] = useState(false);
   const [useNowLocation, setUseNowLocation] = useState(false);
   const [limit, setLimit] = useState("10000");
-
-  
 
   ///////////////////////////// useEffect requestForegroundPermission /////////////////////////////
   useEffect(() => {
@@ -108,8 +107,8 @@ const App = () => {
         },
         1000
       );
-      setLONGITUDE(location.longitude)
-      SetLATITUDE(location.latitude)
+      setLONGITUDE(location.longitude);
+      SetLATITUDE(location.latitude);
       const bbox = getBbox(location);
       getData(bbox);
       setActive_pin(false);
@@ -128,8 +127,8 @@ const App = () => {
         },
         1000
       );
-      setLONGITUDE(newPinLocation.longitude)
-      SetLATITUDE(newPinLocation.latitude)
+      setLONGITUDE(newPinLocation.longitude);
+      SetLATITUDE(newPinLocation.latitude);
       setPinLocation(newPinLocation);
       const bbox = getBbox(newPinLocation);
       getData(bbox);
@@ -150,12 +149,15 @@ const App = () => {
     }
   };
 
-
   if (errorMsg) {
     return <Text>{errorMsg}</Text>;
   }
   if (!geoJson) {
-    return <Text>Loading...</Text>;
+    return (
+      <View style={styles.load}>
+        <ActivityIndicator animating={true} color={MD2Colors.red800} />
+      </View>
+    );
   }
 
   return (
@@ -191,14 +193,10 @@ const App = () => {
         )}
 
         {pinLocation && active_pin === true && (
-          <Marker
-            coordinate={pinLocation}
-            title="Pinned"
-            pinColor="green"
-          />
+          <Marker coordinate={pinLocation} title="Pinned" pinColor="green" />
         )}
       </MapView>
-      <ZoomOut zoomLevel={zoomLevel} jumpOut={jumpOut}/>
+      <ZoomOut zoomLevel={zoomLevel} jumpOut={jumpOut} />
       <ZoomLevel zoomLevel={zoomLevel} />
       <Nowlocation
         NowLocation={jumpToCurrentLocation}
@@ -223,6 +221,11 @@ const styles = StyleSheet.create({
     width: 10,
     borderRadius: 5,
   },
+  load:{
+    flex:1,
+    justifyContent:"center",
+    alignItems:"center"
+  }
 });
 
 export default App;

@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "final",
-    "slug": "final",
+    "name": "Moblie map",
+    "slug": "moblie-map",
+    "description": "Moblie_map for test",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -22,6 +23,18 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
+    },
+    "extra": {
+      "eas": {
+        "projectId": "bba4205b-356d-4721-85aa-6f48ef505a76"
+      }
+    },
+    "owner": "aphiwat",
+    "runtimeVersion": {
+      "policy": "appVersion"
+    },
+    "updates": {
+      "url": "https://u.expo.dev/bba4205b-356d-4721-85aa-6f48ef505a76"
     }
   }
 }
