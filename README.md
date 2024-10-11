@@ -1,3 +1,3 @@
 clone Github
-npm i
-npx expo start
+---------- npm i
+---------- npx expo start
